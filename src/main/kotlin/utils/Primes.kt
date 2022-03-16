@@ -1,5 +1,6 @@
 package utils
 
+import kotlin.math.ln
 import kotlin.math.sqrt
 
 object Primes {
@@ -10,6 +11,15 @@ object Primes {
         if (n > maxGenerated) {
             primes = sieve(n)
             maxGenerated = n
+        }
+
+        return primes
+    }
+
+    fun getFirstNPrimes(n: Long): Set<Long> {
+        if (primes.size < n) {
+            val p_n = (n * ln(n.toDouble()) + n * ln(ln(n.toDouble()))).toLong()
+            primes = sieve(p_n)
         }
 
         return primes
