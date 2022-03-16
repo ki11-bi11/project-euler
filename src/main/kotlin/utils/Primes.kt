@@ -3,10 +3,10 @@ package utils
 import kotlin.math.sqrt
 
 object Primes {
-    private var primes: Sequence<Long> = emptySequence()
+    private var primes: Set<Long> = emptySet()
     private var maxGenerated: Long = 0
 
-    fun getPrimesUpTo(n: Long): Sequence<Long> {
+    fun getPrimesUpTo(n: Long): Set<Long> {
         if (n > maxGenerated) {
             primes = sieve(n)
             maxGenerated = n
@@ -15,21 +15,30 @@ object Primes {
         return primes
     }
 
-    private fun sieve(n: Long): Sequence<Long> {
+    private fun sieve(n: Long): Set<Long> {
         val composites = mutableSetOf<Long>()
+        val primes = mutableSetOf<Long>()
 
         var p = 2L
-        return sequence {
-            while (p < sqrt(n.toDouble()).toLong()) {
-                if (p !in composites) {
-                    yield(p)
-                    for (i in 2 * p until n step p) {
-                        composites.add(i)
-                    }
+        val x = sqrt(n.toDouble()).toLong()
+        while (p <= sqrt(n.toDouble()).toLong()) {
+            if (p !in composites) {
+                primes.add(p)
+                for (i in 2 * p .. n step p) {
+                    composites.add(i)
                 }
-                p++
             }
+            p++
         }
+
+        while (p <= n) {
+            if (p !in composites) {
+                primes.add(p)
+            }
+            p++
+        }
+
+        return primes
     }
 
     fun isPrime(n: Long) = n in getPrimesUpTo(n).toSet()
@@ -38,6 +47,10 @@ object Primes {
         return getPrimesUpTo(n)
             .filter { p -> n % p == 0L }
             .toSet()
+    }
+
+    fun primePowers(n: Int): Set<PrimePower> {
+        return primePowers(n.toLong())
     }
 
     fun primePowers(n: Long): Set<PrimePower> {
@@ -57,6 +70,6 @@ object Primes {
 
     data class PrimePower (
         val prime: Long,
-        val multiple: Int,
+        val power: Int,
     )
 }
