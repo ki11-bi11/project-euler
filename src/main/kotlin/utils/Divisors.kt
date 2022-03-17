@@ -24,4 +24,10 @@ object Divisors {
 
         return getDivisors(newDivisors, remainingPrimePowers)
     }
+
+    fun getProperDivisors(n: Long): Set<Long> {
+        val divisors = getDivisors(n).toMutableSet()
+        divisors.remove(n)
+        return divisors
+    }
 }
