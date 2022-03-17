@@ -1,7 +1,6 @@
 package problems
 
 import utils.BigFraction
-import utils.Combinatorics
 
 fun main() {
     Problem015().run()
