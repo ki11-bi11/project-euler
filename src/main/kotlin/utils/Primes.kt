@@ -13,7 +13,7 @@ object Primes {
             maxGenerated = n
         }
 
-        return primes
+        return primes.filter { p -> p <= n }.toSet()
     }
 
     fun getFirstNPrimes(n: Long): Set<Long> {
@@ -22,7 +22,7 @@ object Primes {
             primes = sieve(p_n)
         }
 
-        return primes
+        return primes.take(n.toInt()).toSet()
     }
 
     private fun sieve(n: Long): Set<Long> {
@@ -31,7 +31,7 @@ object Primes {
 
         var p = 2L
         val x = sqrt(n.toDouble()).toLong()
-        while (p <= sqrt(n.toDouble()).toLong()) {
+        while (p <= x) {
             if (p !in composites) {
                 primes.add(p)
                 for (i in 2 * p .. n step p) {
@@ -51,7 +51,10 @@ object Primes {
         return primes
     }
 
-    fun isPrime(n: Long) = n in getPrimesUpTo(n).toSet()
+    fun isPrime(n: Long): Boolean {
+        if (n < maxGenerated) return n in primes
+        return n in getPrimesUpTo(n)
+    }
 
     fun primeFactors(n: Long): Set<Long> {
         return getPrimesUpTo(n)
