@@ -1,5 +1,6 @@
 package problems
 
+import utils.Strings
 import java.io.File
 
 fun main() {
@@ -19,15 +20,7 @@ class Problem022: Problem() {
         val f = File("src/main/resources/p022_names.txt").readText()
         val names = f.split(",").map { n -> n.replace("\"", "") }.sorted()
         return names.foldIndexed(0L) { i, sum, name ->
-            sum + (i + 1) * nameScore(name)
+            sum + (i + 1) * Strings.wordScore(name)
         }
-    }
-
-    fun nameScore(name: String): Int {
-        var sum = 0
-        for (c in name) {
-            sum += (c.code - 'A'.code + 1)
-        }
-        return sum
     }
 }
