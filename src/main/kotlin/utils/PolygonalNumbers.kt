@@ -28,4 +28,13 @@ object PolygonalNumbers {
         val n = (1 + sqrt(24 * p_n + 1.0)) / 6.0
         return n % 1.0 == 0.0
     }
+
+    fun nthHexagonal(n: Int): Long {
+        return n.toLong() * (2 * n - 1)
+    }
+
+    fun isHexagonal(h_n: Long): Boolean {
+        val n = (1 + sqrt(8 * h_n + 1.0)) / 4.0
+        return n % 1.0 == 0.0
+    }
 }
